@@ -1,0 +1,27 @@
+{
+  "cc65": {
+    "version": "V2.19 Git e11fb5c",
+    "commit": "e11fb5c39371046ebe25485f984f644c5a0d65d3",
+    "url": "https://sourceforge.net/projects/cc65/files/cc65-snapshot-win32.zip/download",
+    "archive": "cc65.zip",
+    "directory": "cc65",
+    "sha256": "4994453cc76987bbf3c3dda77e8497bab369c7348f05d88871af9f2dd491fffd"
+  },
+  "mesen": {
+    "version": "2.2.1",
+    "url": "https://github.com/nesdev-org/MesenCE/releases/download/2.2.1/Mesen_2.2.1_Windows.zip",
+    "archive": "Mesen_2.2.1_Windows.zip",
+    "directory": "Mesen_2.2.1_Windows",
+    "sha256": "c19e10b3b3865eb0e86e4d01bf09a5027a4452081c04b5bd5b6cbbf76e346fd6"
+  },
+  "fceux": {
+    "version": "2.6.6",
+    "url": "https://github.com/TASEmulators/fceux/releases/download/v2.6.6/fceux-2.6.6-win64.zip",
+    "archive": "fceux-2.6.6-win64.zip",
+    "directory": "fceux",
+    "sha256": "bc8f7e420ebf512615bc8bbc5b8beea655ea1feaf474742a2f56b35fd0415aee"
+  },
+  "py65": {
+    "version": "1.2.0"
+  }
+}
