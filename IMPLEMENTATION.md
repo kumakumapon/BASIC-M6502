@@ -20,7 +20,7 @@ Windows tooling. SAVE/LOAD persistence is deferred; use emulator save states.
 - [x] Test arithmetic, editing, control flow, arrays, strings and error paths.
 - [x] Test display, interruption, cold boot and two NES emulators where available.
 - [x] Document installation, controls, limitations and validation evidence.
-- [ ] Update PR and mark ready when implementation and verification are complete.
+- [x] Update PR and mark ready when implementation and verification are complete.
 
 ## Resume
 
@@ -81,3 +81,20 @@ here before pushing each milestone. Do not mark unexecuted checks as passed.
   Its default audio initialization can open a modal dialog without an audio
   device. The runner now uses a dedicated sound-disabled test configuration
   and preserves process logs on timeout; local FCEUX is rechecked before push.
+
+## Completed
+
+- PR #2 is ready for review (not merged). No sub-agents were used.
+- [GitHub Actions run 35508072857](https://github.com/kumakumapon/BASIC-M6502/actions/runs/35508072857)
+  passed on both Windows and Linux for implementation commit `a4a00eb`.
+- Windows CI: all 12 translation/CPU tests, all 27 Mesen cases and all 27 FCEUX
+  cases passed. Disabling audio resolved FCEUX's hosted-runner startup issue.
+- Both CI artifacts were downloaded and compared with the local Windows build:
+  all three ROMs are byte-identical. Final ROM is 40,976 bytes with SHA256
+  `b9b8aea5821139e7b482e6478417925f1d88e4851bd5834ccd798a3fb5c61028`.
+- Final Mesen run: 10,868 frames, maximum NMI 1,788 cycles. Final screenshots
+  show the cursor inside the visible viewport and are committed in `docs/images`.
+- Historical `m6502.asm` is unchanged. SAVE/LOAD persistence remains explicitly
+  outside this port's initial scope; emulator save states are the chosen option.
+- Build: `./build.ps1`. Full verification: `./test.ps1 -Emulators`.
+  Ongoing development can resume from these commands and `docs/NES.md`.
