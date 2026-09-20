@@ -411,6 +411,9 @@ FodyWeavers.xsd
 *.vsix
 
 # Windows Installer files from build outputs
+.tools/
+build/
+__pycache__/
 *.cab
 *.msi
 *.msix
