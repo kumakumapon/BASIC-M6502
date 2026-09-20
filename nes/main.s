@@ -11,3 +11,4 @@
 .assert B_TXTPTR = B_CHRGET+7, error, "CHRGET operand layout"
 .assert B_RNDX+5 < $ff, error, "BASIC workspace overlaps FOUT buffer"
 .assert B_BUF+B_BUFLEN <= $02f0, error, "Input buffer overflow"
+.assert B_STKEND < B_BUF-4, error, "Stack overlaps input buffer sentinels"

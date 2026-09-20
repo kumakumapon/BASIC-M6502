@@ -1,5 +1,29 @@
 # Microsoft BASIC for 6502 Microprocessor - Version 1.1
 
+## NES port
+
+This repository now builds the original `m6502.asm` as a **NES 2.0 / MMC1 ROM**
+with a 32-column text console and Family BASIC Keyboard input. The historical
+source remains unchanged; a Python translator generates ca65 assembly.
+
+On Windows with Python 3.10+ and PowerShell:
+
+```powershell
+./setup-tools.ps1 -Emulators -Tests
+./build.ps1
+./test.ps1 -Emulators
+```
+
+Open `build/basic.nes` in Mesen CE, choose Famicom / Family BASIC Keyboard, and
+enter `PRINT 1+2`. No Family BASIC commercial ROM is required.
+
+See **[NES setup, controls and validation](docs/NES.md)** for keyboard mapping,
+debugging, memory layout, pinned tools, and limitations. This port implements
+Microsoft BASIC, not the Family BASIC language. SAVE/LOAD persistence is not
+included; emulator save states preserve a session.
+
+![NES BASIC running in Mesen CE](docs/images/mesen.png)
+
 ## Historical Significance
 
 This assembly language source code represents one of the most historically significant pieces of software from the early personal computer era. It is the complete source code for **Microsoft BASIC Version 1.1 for the 6502 microprocessor**, originally developed and copyrighted by Microsoft in 1976-1978.

@@ -1,0 +1,56 @@
+name: NES build and emulator tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install verified portable tools
+        run: ./setup-tools.ps1 -Emulators -Tests
+      - name: Build and test on CPU, Mesen CE and FCEUX
+        run: ./test.ps1 -Emulators
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: nes-basic-windows
+          path: |
+            build/*.nes
+            build/*.dbg
+            build/*.map
+            build/*.lst
+            build/*.lbl
+            build/*-result.txt
+            build/*-transcript.txt
+            build/*-process.log
+            build/*.png
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Build pinned cc65 from source
+        shell: bash
+        run: |
+          git clone https://github.com/cc65/cc65.git .tools/cc65
+          git -C .tools/cc65 checkout e11fb5c39371046ebe25485f984f644c5a0d65d3
+          make -C .tools/cc65/src -j2 ca65 ld65
+          python -m pip install py65==1.2.0
+      - name: Build and run CPU tests
+        run: |
+          python scripts/build.py
+          python -m unittest discover -s tests -p 'test_*.py' -v
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: nes-basic-linux
+          path: build/basic.nes

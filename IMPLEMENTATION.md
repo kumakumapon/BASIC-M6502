@@ -13,13 +13,13 @@ Windows tooling. SAVE/LOAD persistence is deferred; use emulator save states.
 ## Checkpoints
 
 - [x] Open draft PR before implementation: https://github.com/kumakumapon/BASIC-M6502/pull/2
-- [ ] Pin tool downloads and record versions/hashes.
-- [ ] Convert original assembly and validate layout and RAM initialization.
-- [ ] Implement NES startup, display, keyboard and interpreter integration.
+- [x] Pin tool downloads and record versions/hashes.
+- [x] Convert original assembly and validate layout and RAM initialization.
+- [x] Implement NES startup, display, keyboard and interpreter integration.
 - [x] Build ROM, map, listing and debug symbols.
-- [ ] Test arithmetic, editing, control flow, arrays, strings and error paths.
-- [ ] Test display, interruption, cold boot and two NES emulators where available.
-- [ ] Document installation, controls, limitations and validation evidence.
+- [x] Test arithmetic, editing, control flow, arrays, strings and error paths.
+- [x] Test display, interruption, cold boot and two NES emulators where available.
+- [x] Document installation, controls, limitations and validation evidence.
 - [ ] Update PR and mark ready when implementation and verification are complete.
 
 ## Resume
@@ -53,3 +53,20 @@ here before pushing each milestone. Do not mark unexecuted checks as passed.
 - Mesen's 2.2.1 keyboard does not expose named buttons to Lua setInput;
   automated NES tests should inject matrix readings at $4017 and validate
   ROM-side $4016 scanning, with this limitation stated explicitly.
+
+## Checkpoint 2026-09-20: complete local validation, CI next
+
+- `./test.ps1 -Emulators`: all 12 translation/CPU tests passed, all 27 Mesen
+  electrical-keyboard/interpreter cases passed, all 27 FCEUX ASCII/interpreter
+  cases passed. Screenshots were inspected. Each emulator starts from cold boot.
+- Measured Mesen NMI maximum: 1,788 CPU cycles; fixture also rejects writes
+  outside the VBlank transfer interval while rendering is enabled.
+- Fixed STKEND to $01fb, reserving $01fc-$01ff for the original pre-buffer
+  sentinels. Added a compile-time assertion and cold-boot sentinel check.
+- Linker describes ZPINIT's ROM load address and RAM run address separately.
+  This debug/map correction was verified to leave ROM bytes unchanged.
+- Full setup script verified all three local tool archives against the lock.
+- `docs/NES.md` contains scope, controls, memory map, source references,
+  SAVE/LOAD decision and exact emulator-test limitations.
+- Next: push CI workflow and docs, inspect Windows/Linux checks and artifacts,
+  address any failures, then update final PR description and mark ready.

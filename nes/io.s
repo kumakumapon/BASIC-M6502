@@ -113,6 +113,7 @@ B_CZGETL:
     tay
     pla
     tax
+keyboard_result:
     lda key_value
     rts
 
