@@ -5,6 +5,8 @@ nmi_ptr = $e2
 copy_ptr = $e4
 .assert B_RNDX+5 <= ptr, error, "NES/BASIC zero page overlap"
 screen = $0400                 ; 960 bytes, through $07bf
+FIRST_ROW = 1                  ; keep both edge rows outside the text viewport
+ROW_LIMIT = 29                 ; default NTSC overscan hides rows 0 and 29
 row = $0300
 col = $0301
 pending = $0302                ; published last, zero means foreground owns screen
@@ -101,6 +103,8 @@ reset:
     sta $2000
     lda #$0a
     sta $2001
+    lda #FIRST_ROW
+    sta row
     jmp B_INIT
 
 mmc_control:
@@ -223,6 +227,7 @@ B_OUTCH:
     lda col
     bne @back
     lda row
+    cmp #FIRST_ROW
     beq @cursor
     dec row
     lda row
@@ -245,9 +250,9 @@ B_OUTCH:
 :
     lda scrolling
     beq @partial
-    lda #0
+    lda #FIRST_ROW
     sta transfer_row
-    lda #30
+    lda #ROW_LIMIT-FIRST_ROW
     bne @commit
 @partial:
     lda first_row
@@ -271,19 +276,19 @@ newline:
     sta col
     inc row
     lda row
-    cmp #30
+    cmp #ROW_LIMIT
     bcc @done
     dec row
     inc scrolling
-    lda #<screen
+    lda #<(screen+32*FIRST_ROW)
     sta ptr
-    lda #>screen
+    lda #>(screen+32*FIRST_ROW)
     sta ptr+1
-    lda #<(screen+32)
+    lda #<(screen+32*(FIRST_ROW+1))
     sta copy_ptr
-    lda #>(screen+32)
+    lda #>(screen+32*(FIRST_ROW+1))
     sta copy_ptr+1
-    ldx #29
+    ldx #ROW_LIMIT-FIRST_ROW-1
 @row:
     ldy #0
 @copy:

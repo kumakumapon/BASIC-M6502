@@ -70,3 +70,14 @@ here before pushing each milestone. Do not mark unexecuted checks as passed.
   SAVE/LOAD decision and exact emulator-test limitations.
 - Next: push CI workflow and docs, inspect Windows/Linux checks and artifacts,
   address any failures, then update final PR description and mark ready.
+
+## Final review adjustments
+
+- Reserved top/bottom nametable rows for NTSC overscan: 32x28 visible viewport,
+  with the input cursor visible at the bottom in both default emulator views.
+  Full local tests still pass; added explicit blank-edge/cursor assertions.
+- First GitHub run: Linux build/12 tests passed; Windows build/12 tests/Mesen
+  27 cases passed. FCEUX timed out before producing output on the hosted runner.
+  Its default audio initialization can open a modal dialog without an audio
+  device. The runner now uses a dedicated sound-disabled test configuration
+  and preserves process logs on timeout; local FCEUX is rechecked before push.

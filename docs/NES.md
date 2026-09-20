@@ -116,7 +116,9 @@ the boundary between BASIC and platform RAM. The RAM ceiling is always `$8000`;
 there is no RAM-size probing and no startup terminal-width question.
 
 The screen uses an original 5x7 font in 8x8 tiles, with a steady underscore
-cursor. CR moves to the next row, LF is ignored, and output wraps at 32 columns.
+cursor. The text viewport is 32 columns by 28 rows; the outer two rows stay
+blank so the input cursor remains visible with normal NTSC overscan cropping.
+CR moves to the next row, LF is ignored, and output wraps at 32 columns.
 Scrolling shifts the shadow screen up one row. A bounded **single pending row
 range** is the display queue: the producer waits while NMI owns that range,
 then publishes the count last. This prevents overflow and partially modified

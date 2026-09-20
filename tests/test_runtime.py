@@ -259,6 +259,11 @@ class RuntimeTests(unittest.TestCase):
         self.assertLess(self.m.max_nmi, 2273)
         self.assertEqual(self.m.bus.ppu[0x2000:0x23C0], self.m.bus.ram[0x400:0x7C0])
         self.assertFalse(self.m.bus.bad_writes)
+        self.assertEqual(self.m.bus.ram[0x300], 28)
+        self.assertEqual(self.m.bus.ppu[0x2000:0x2020], bytes(32))
+        self.assertEqual(self.m.bus.ppu[0x23A0:0x23C0], bytes(32))
+        cursor = 0x2000 + 28 * 32 + self.m.bus.ram[0x301]
+        self.assertEqual(self.m.bus.ppu[cursor], 127)
 
 
 if __name__ == "__main__":

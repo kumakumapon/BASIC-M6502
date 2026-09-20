@@ -27,13 +27,32 @@ def main():
     startup = subprocess.STARTUPINFO()
     startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
     startup.wShowWindow = 0
-    proc = subprocess.run(
-        [str(exe.resolve()), "-lua", str(script), str(out / "basic.nes")],
-        cwd=exe.resolve().parent,
-        capture_output=True,
-        timeout=90,
-        startupinfo=startup,
-    )
+    # Windows CI has no audio device. FCEUX's default sound initialization opens
+    # a modal error dialog there. Use a separate config, leaving user config alone.
+    config = exe.resolve().parent / "nes-basic-test.cfg"
+    config.write_text('"sound" 0\n', encoding="ascii")
+    try:
+        proc = subprocess.run(
+            [
+                str(exe.resolve()),
+                "-cfg",
+                config.name,
+                "-nothrottle",
+                "1",
+                "-lua",
+                str(script),
+                str(out / "basic.nes"),
+            ],
+            cwd=exe.resolve().parent,
+            capture_output=True,
+            timeout=90,
+            startupinfo=startup,
+        )
+    except subprocess.TimeoutExpired as exc:
+        (out / "fceux-process.log").write_bytes(
+            (exc.stdout or b"") + (exc.stderr or b"")
+        )
+        raise SystemExit("FCEUX timed out; see build/fceux-process.log") from exc
     (out / "fceux-process.log").write_bytes(proc.stdout + proc.stderr)
     print(
         result.read_text()
