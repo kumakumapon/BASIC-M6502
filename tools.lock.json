@@ -5,7 +5,7 @@
     "url": "https://sourceforge.net/projects/cc65/files/cc65-snapshot-win32.zip/download",
     "archive": "cc65.zip",
     "directory": "cc65",
-    "sha256": "4994453cc76987bbf3c3dda77e8497bab369c7348f05d88871af9f2dd491fffd"
+    "sha256": "107f20280e3a69952db3091ae117944a3f337a43838ea85a202861539999cc89"
   },
   "mesen": {
     "version": "2.2.1",
